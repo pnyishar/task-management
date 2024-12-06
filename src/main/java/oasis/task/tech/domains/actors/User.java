@@ -6,10 +6,7 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.ToString;
+import lombok.*;
 import oasis.task.tech.constants.UserType;
 import oasis.task.tech.domains.base.StringIdentifierModel;
 import oasis.task.tech.domains.security.Permission;
@@ -34,6 +31,7 @@ import java.util.stream.Collectors;
 @Entity
 @Inheritance( strategy = InheritanceType.JOINED)
 @Data
+@Builder
 @EqualsAndHashCode(callSuper = true)
 @Where(clause = "deleted_at is null")
 @ToString
