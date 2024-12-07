@@ -1,5 +1,11 @@
 package oasis.task.tech.config;
 
+import oasis.task.tech.constants.UserPermission;
+import oasis.task.tech.constants.UserType;
+import oasis.task.tech.domains.actors.User;
+import oasis.task.tech.domains.security.Permission;
+import oasis.task.tech.domains.security.Role;
+import oasis.task.tech.service.PermissionService;
 import oasis.task.tech.service.RoleService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -95,7 +101,7 @@ public class ApplicationInitializer implements ApplicationRunner {
     private void createDefaultRolesIfNotFound() {
         logger.info("Creating default roles");
         createRoleIfNotFound("SUPER_ADMIN", this.getSuperAdminPermissions());
-        createRoleIfNotFound("STUDENT", this.getStudentPermissions());
+        createRoleIfNotFound("USER", this.getUserPermissions());
     }
 
     private void createRoleIfNotFound(final String name, final Set<Permission> permissions) {
@@ -110,33 +116,35 @@ public class ApplicationInitializer implements ApplicationRunner {
         return new HashSet<>(permissionService.findAll());
     }
 
-    private Set<Permission> getStudentPermissions(){
-        return new HashSet<>(Arrays.asList(this.getCanViewEvents(), this.getCanGenerateInstitutionReports(),
-                this.getCanProvideFeedback(), this.getCanViewUpcomingEvents(), this.getCanViewPersonalSchedule(),
-        this.getCanViewNotifications()));
+    private Set<Permission> getUserPermissions(){
+        return new HashSet<>(Arrays.asList(this.getCanViewTask(), this.getCanCreateTask(),
+                this.getCanUpdateTask(), this.getCanDeleteTask()));
     }
 
-    private Permission getCanViewEvents(){
-        return permissionService.find(UserPermission.CAN_VIEW_EVENTS);
+    private Permission getCanViewTask(){
+        return permissionService.find(UserPermission.CAN_VIEW_TASK);
     }
 
-    private Permission getCanGenerateInstitutionReports(){
-        return permissionService.find(UserPermission.CAN_GENERATE_ALL_INSTITUTIONS_REPORTS);
+    private Permission getCanCreateTask(){
+        return permissionService.find(UserPermission.CAN_CREATE_TASK);
     }
 
-    private Permission getCanProvideFeedback(){
-        return permissionService.find(UserPermission.CAN_PROVIDE_FEEDBACK);
+    private Permission getCanUpdateTask(){
+        return permissionService.find(UserPermission.CAN_UPDATE_TASK);
     }
 
-    private Permission getCanViewUpcomingEvents(){
-        return permissionService.find(UserPermission.CAN_VIEW_UPCOMING_EVENT);
+    private Permission getCanDeleteTask(){
+        return permissionService.find(UserPermission.CAN_DELETE_TASK);
     }
 
-    private Permission getCanViewPersonalSchedule(){
-        return permissionService.find(UserPermission.CAN_VIEW_PERSONAL_SCHEDULE);
+    private Permission getCanCreateUser(){
+        return permissionService.find(UserPermission.CAN_CREATE_USER);
     }
 
-    private Permission getCanViewNotifications(){
-        return permissionService.find(UserPermission.CAN_VIEW_NOTIFICATIONS);
+    private Permission getCanUpdateUser(){
+        return permissionService.find(UserPermission.CAN_UPDATE_USER);
+    }
+    private Permission getCanViewUsers(){
+        return permissionService.find(UserPermission.CAN_VIEW_USER);
     }
 }
