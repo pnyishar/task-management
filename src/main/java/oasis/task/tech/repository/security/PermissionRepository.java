@@ -1,6 +1,7 @@
 package oasis.task.tech.repository.security;
 
 import oasis.task.tech.domains.security.Permission;
+import oasis.task.tech.repository.BaseRepository;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -12,7 +13,7 @@ import java.util.List;
  * Date : 12/6/2024
  * Project : task-management
  */
-public interface PermissionRepository extends JpaRepository<Permission, Long> {
+public interface PermissionRepository extends BaseRepository<Permission, Long> {
     Permission findByName(String name);
 
     @Query("SELECT MAX(a.updatedAt) FROM Permission a")

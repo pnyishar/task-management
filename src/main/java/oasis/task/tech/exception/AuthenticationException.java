@@ -1,12 +1,14 @@
-/**
- * Created by: Paul Nyishar
- * Date : 12/6/2024
- * Project : task-management
- */
+
 package oasis.task.tech.exception;
 
 import org.springframework.http.HttpStatus;
 
+/**
+ * Author: Paul Nyishar
+ * Date:12/7/24
+ * Time:1:44PM
+ * Project:task-management
+ */
 public class AuthenticationException extends RuntimeException{
     private HttpStatus status;
     private String message;
