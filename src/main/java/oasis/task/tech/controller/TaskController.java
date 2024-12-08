@@ -63,4 +63,22 @@ public class TaskController {
                         "All User Tasks Retrieved Successfully"),
                 HttpStatus.OK);
     }
+
+    @PutMapping("update")
+    public ResponseEntity<?> updateTask(@Valid @RequestBody TaskDto taskDto, @RequestParam String taskId) {
+        String updateResponse = taskService.updateTask(taskDto, taskId);
+
+        return new ResponseEntity<>(
+                new JsonResponse(HttpStatus.OK, true, updateResponse), HttpStatus.OK
+        );
+    }
+
+    @DeleteMapping("delete")
+    public ResponseEntity<?> deleteTask(@RequestParam String taskId) {
+        String deleteResponse = taskService.deleteTask(taskId);
+
+        return new ResponseEntity<>(
+                new JsonResponse(HttpStatus.OK, true, deleteResponse), HttpStatus.OK
+        );
+    }
 }

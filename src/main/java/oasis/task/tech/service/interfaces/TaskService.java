@@ -15,4 +15,6 @@ public interface TaskService {
     String createTask(TaskDto taskDto);
     Page<Task> getAllTask(String searchTerm, int page, int limit);
     Page<Task> getUserTasks(String searchTerm, int page, int limit, String userId);
+    String updateTask(TaskDto taskDto, String taskId);
+    String deleteTask(String taskId);
 }

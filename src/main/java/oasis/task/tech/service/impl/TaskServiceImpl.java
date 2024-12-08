@@ -9,6 +9,8 @@ import oasis.task.tech.repository.actors.TaskRepository;
 import oasis.task.tech.repository.actors.UserRepository;
 import oasis.task.tech.service.interfaces.TaskService;
 import oasis.task.tech.service.interfaces.UserService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -23,6 +25,7 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class TaskServiceImpl implements TaskService {
+    private static final Logger logger = LoggerFactory.getLogger(TaskServiceImpl.class);
     private TaskRepository taskRepository;
     private UserService userService;
     private UserRepository userRepository;
@@ -77,5 +80,36 @@ public class TaskServiceImpl implements TaskService {
         }
 
         return taskRepository.getUserTaskList(userId, pageable);
+    }
+
+    @Override
+    public String updateTask(TaskDto taskDto, String taskId) {
+        // Fetch the existing task
+        Task task = taskRepository.findById(taskId)
+                .orElseThrow(() -> new NotFoundException("Task not found with id: " + taskId));
+
+        // Update the fields
+        if (taskDto.getTitle() != null) task.setTitle(taskDto.getTitle());
+        if (taskDto.getDescription() != null) task.setDescription(taskDto.getDescription());
+        if (taskDto.getPriority() != null) task.setPriority(taskDto.getPriority());
+        if (taskDto.getDueDate() != null) task.setDueDate(taskDto.getDueDate());
+
+        // Save the updated task
+        taskRepository.save(task);
+
+        return "Task updated successfully";
+    }
+
+    @Override
+    public String deleteTask(String taskId) {
+        // Fetch the existing task
+        Task task = taskRepository.findById(taskId)
+                .orElseThrow(() -> new NotFoundException("Task not found with id: " + taskId));
+
+        // Mark the task as deleted instead of actually deleting it
+        task.setDeleted(true);
+        taskRepository.save(task);
+
+        return "Task marked as deleted successfully";
     }
 }

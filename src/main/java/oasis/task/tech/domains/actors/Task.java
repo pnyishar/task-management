@@ -30,6 +30,8 @@ public class Task extends StringIdentifierModel {
 
     private LocalDate dueDate;
 
+    private boolean deleted = false;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
