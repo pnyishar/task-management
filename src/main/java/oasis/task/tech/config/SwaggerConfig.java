@@ -15,6 +15,7 @@ import springfox.documentation.spi.service.contexts.SecurityContext;
 import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
+import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
 
@@ -29,9 +30,14 @@ import java.util.List;
 public class SwaggerConfig {
     @Bean
     public Docket api() {
-        return new Docket(DocumentationType.SWAGGER_2).select()
-                .apis(RequestHandlerSelectors.any()).paths(PathSelectors.any()).build()
-                .apiInfo(apiInfo()).securitySchemes(Lists.newArrayList(apiKey()))
+        return new Docket(DocumentationType.SWAGGER_2)
+                .directModelSubstitute(LocalDate.class, String.class) // Map LocalDate to String
+                .select()
+                .apis(RequestHandlerSelectors.any())
+                .paths(PathSelectors.any())
+                .build()
+                .apiInfo(apiInfo())
+                .securitySchemes(Lists.newArrayList(apiKey()))
                 .securityContexts(Arrays.asList(securityContext()));
     }
 
