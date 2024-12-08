@@ -1,22 +1,22 @@
 package oasis.task.tech.domains.actors;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import io.micrometer.common.util.StringUtils;
-import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Size;
 import lombok.*;
 import oasis.task.tech.constants.UserType;
 import oasis.task.tech.domains.base.StringIdentifierModel;
 import oasis.task.tech.domains.security.Permission;
 import oasis.task.tech.domains.security.Role;
 import oasis.task.tech.util.WebUtility;
+import org.apache.commons.lang3.StringUtils;
 import org.hibernate.annotations.Where;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashSet;

@@ -7,7 +7,6 @@
 package oasis.task.tech.security;
 
 import io.jsonwebtoken.*;
-import jakarta.servlet.http.HttpServletRequest;
 import oasis.task.tech.dto.auth.AuthenticationResponse;
 import oasis.task.tech.exception.AuthenticationException;
 import org.slf4j.Logger;
@@ -69,7 +68,7 @@ public class JwtTokenProvider {
                 .map(SimpleGrantedAuthority::new).collect(Collectors.toList());
     }
 
-    public String resolveToken(HttpServletRequest request) {
+    public String resolveToken(javax.servlet.http.HttpServletRequest request) {
         String bearerToken = request.getHeader(AUTHORIZATION_HEADER);
 
         if (StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer ")) {
@@ -94,23 +93,17 @@ public class JwtTokenProvider {
     // validate JWT token
     public boolean validateToken(String token){
         try {
-            log.debug("Validating token {}", token);
             Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token);
             return true;
         }catch (SignatureException ex){
-            log.error("Invalid JWT signature: {}", ex.getMessage());
             throw new AuthenticationException(HttpStatus.BAD_REQUEST, "Invalid JWT signature");
         }catch (MalformedJwtException ex){
-            log.error("Invalid Token: {}", ex.getMessage());
             throw new AuthenticationException(HttpStatus.BAD_REQUEST, "Invalid JWT token");
         }catch (ExpiredJwtException ex){
-            log.error("Expired JWT signature: {}", ex.getMessage());
             throw new AuthenticationException(HttpStatus.BAD_REQUEST, "Expired JWT token");
         }catch (UnsupportedJwtException ex){
-            log.error("Unsupported JWT token: {}", ex.getMessage());
             throw new AuthenticationException(HttpStatus.BAD_REQUEST, "Unsupported JWT token");
         }catch (IllegalArgumentException ex){
-            log.error("JWT claims string is empty: {}", ex.getMessage());
             throw new AuthenticationException(HttpStatus.BAD_REQUEST, "JWT claims string is empty");
         }
 

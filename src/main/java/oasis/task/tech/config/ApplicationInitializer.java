@@ -7,6 +7,7 @@ import oasis.task.tech.domains.security.Permission;
 import oasis.task.tech.domains.security.Role;
 import oasis.task.tech.service.PermissionService;
 import oasis.task.tech.service.RoleService;
+import oasis.task.tech.service.interfaces.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,11 +1,12 @@
 package oasis.task.tech.security;
 
 import oasis.task.tech.repository.actors.UserRepository;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+
+import java.util.Date;
 
 /**
  * Created by: Paul Nyishar
@@ -22,16 +23,11 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        // Find user by email (username in this context is email)
-        var user = userRepository.findByEmail(email)
-                .orElseThrow(() -> new UsernameNotFoundException("User not found with email: " + email));
 
-        return User.builder()
-                .username(user.getEmail())
-                .password(user.getPassword())
-                .roles(user.getRoles().stream()
-                        .map(role -> "ROLE_" + role.getName())
-                        .toArray(String[]::new))
-                .build();
+        oasis.task.tech.domains.actors.User user = userRepository.findByEmail(email)
+                .orElseThrow( () -> new UsernameNotFoundException("User not found with email:"+ email));
+        user.setLastLoggedIn(new Date());
+        userRepository.save(user);
+        return user;
     }
 }

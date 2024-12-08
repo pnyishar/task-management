@@ -1,21 +1,16 @@
-/**
- * Created By: Paul Nyishar
- * Date: 9/14/2024
- * Time: 9:41 PM
- * Project: hall-mgt-backend
- */
+
 package oasis.task.tech.domains.security;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Lob;
-import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import oasis.task.tech.domains.base.NamedModel;
 import org.hibernate.annotations.Where;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Lob;
+import javax.persistence.Table;
 import java.util.Objects;
 
 @Getter

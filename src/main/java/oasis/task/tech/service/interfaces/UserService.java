@@ -1,11 +1,11 @@
 package oasis.task.tech.service.interfaces;
 
-import jakarta.validation.constraints.NotNull;
 import oasis.task.tech.constants.UserType;
 import oasis.task.tech.domains.actors.User;
 import oasis.task.tech.domains.security.Role;
 import oasis.task.tech.dto.actors.UserDto;
 
+import javax.validation.constraints.NotNull;
 import java.util.Optional;
 import java.util.Set;
 

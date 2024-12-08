@@ -1,7 +1,8 @@
 package oasis.task.tech.dto.actors;
 
-import jakarta.validation.constraints.NotNull;
 import lombok.Data;
+
+import javax.validation.constraints.NotNull;
 
 /**
  * Author: Paul Nyishar

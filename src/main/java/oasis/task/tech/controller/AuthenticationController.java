@@ -1,8 +1,6 @@
 package oasis.task.tech.controller;
 
 import io.jsonwebtoken.Claims;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.validation.Valid;
 import oasis.task.tech.dto.JsonResponse;
 import oasis.task.tech.dto.auth.AuthenticationRequest;
 import oasis.task.tech.dto.auth.AuthenticationResponse;
@@ -15,6 +13,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 import java.util.Date;
 
 /**
@@ -24,7 +24,7 @@ import java.util.Date;
  * Project:task-management
  */
 @RestController
-@RequestMapping("api/v1/auth")
+@RequestMapping("api/v1/auth/")
 public class AuthenticationController {
     private final Logger logger = LoggerFactory.getLogger(getClass());
 

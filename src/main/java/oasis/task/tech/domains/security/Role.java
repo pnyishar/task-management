@@ -1,18 +1,13 @@
-/**
- * Created By: Paul Nyishar
- * Date: 9/14/2024
- * Time: 9:38 PM
- * Project: hall-mgt-backend
- */
+
 package oasis.task.tech.domains.security;
 
-import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 import oasis.task.tech.domains.base.Model;
 import org.hibernate.annotations.Where;
 
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;

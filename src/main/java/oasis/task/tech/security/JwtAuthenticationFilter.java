@@ -1,16 +1,6 @@
-/**
- * Created By: Paul Nyishar
- * Date: 9/15/2024
- * Time: 6:23 AM
- * Project: hall-mgt-backend
- */
 package oasis.task.tech.security;
 
-import jakarta.servlet.FilterChain;
-import jakarta.servlet.ServletException;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -18,6 +8,10 @@ import org.springframework.security.web.authentication.WebAuthenticationDetailsS
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
+import javax.servlet.FilterChain;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
@@ -25,44 +19,47 @@ import java.io.IOException;
  * Date : 12/6/2024
  * Project : task-management
  */
-@NoArgsConstructor
+@RequiredArgsConstructor
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
-    // inject dependencies
-    private JwtTokenProvider tokenProvider;
-
-
-    private CustomUserDetailsService customUserDetailsService;
-
-    public JwtAuthenticationFilter(JwtTokenProvider tokenProvider, CustomUserDetailsService customUserDetailsService) {
-        this.tokenProvider = tokenProvider;
-        this.customUserDetailsService = customUserDetailsService;
-    }
+    private final JwtTokenProvider tokenProvider;
+    private final CustomUserDetailsService customUserDetailsService;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request,
                                     HttpServletResponse response,
                                     FilterChain filterChain) throws ServletException, IOException {
-        // get JWT (token) from http request
-        String token = getJWTfromRequest(request);
-        // validate token
-        if(StringUtils.hasText(token) && tokenProvider.validateToken(token)){
-            // get username from token
-            String username = tokenProvider.getUsernameFromJWT(token);
-            // load user associated with token
-            UserDetails userDetails = customUserDetailsService.loadUserByUsername(username);
-            UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
-                    userDetails, null, userDetails.getAuthorities()
-            );
-            authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-            // set spring security
-            SecurityContextHolder.getContext().setAuthentication(authenticationToken);
+        try {
+            // Get JWT from request
+            String token = getJWTfromRequest(request);
+
+            // Validate token
+            if (StringUtils.hasText(token) && tokenProvider.validateToken(token)) {
+                // Extract username from token
+                String username = tokenProvider.getUsernameFromJWT(token);
+
+                // Load user details
+                UserDetails userDetails = customUserDetailsService.loadUserByUsername(username);
+
+                // Create authentication object
+                UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
+                        userDetails, null, userDetails.getAuthorities()
+                );
+
+                // Set details and context
+                authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+                SecurityContextHolder.getContext().setAuthentication(authenticationToken);
+            }
+        } catch (Exception ex) {
+            logger.error("Could not set user authentication in security context", ex);
         }
+
         filterChain.doFilter(request, response);
     }
-    private String getJWTfromRequest(HttpServletRequest request){
+
+    private String getJWTfromRequest(HttpServletRequest request) {
         String bearerToken = request.getHeader("Authorization");
-        if(StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer ")){
-            return bearerToken.substring(7, bearerToken.length());
+        if (StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer ")) {
+            return bearerToken.substring(7);
         }
         return null;
     }

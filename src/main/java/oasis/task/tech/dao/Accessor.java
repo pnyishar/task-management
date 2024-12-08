@@ -1,15 +1,15 @@
 package oasis.task.tech.dao;
 
 
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.Query;
-import jakarta.persistence.TypedQuery;
 import oasis.task.tech.domains.base.Model;
 import oasis.task.tech.util.EmService;
 import oasis.task.tech.util.Utility;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
+import javax.persistence.EntityManager;
+import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
