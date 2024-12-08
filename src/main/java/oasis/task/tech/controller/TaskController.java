@@ -49,4 +49,18 @@ public class TaskController {
                         "All Tasks Retrieved Successfully"),
                 HttpStatus.OK);
     }
+
+    @GetMapping("user/all")
+    public ResponseEntity<?> getUserTasks(@RequestParam(defaultValue = "0") int page,
+                                          @RequestParam(defaultValue = "10") int limit,
+                                          @RequestParam(required = false) String searchTerm,
+                                          @RequestParam("userId") String userId) {
+        Page<Task> taskPage = taskService.getUserTasks(searchTerm, page, limit, userId);
+
+        return new ResponseEntity<>(
+                new JsonResponse(HttpStatus.OK, true,
+                        TaskMapper.mapToTaskResponsePaginated(taskPage, page, limit),
+                        "All User Tasks Retrieved Successfully"),
+                HttpStatus.OK);
+    }
 }

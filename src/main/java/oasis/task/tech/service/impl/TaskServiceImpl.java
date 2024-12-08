@@ -67,4 +67,15 @@ public class TaskServiceImpl implements TaskService {
 
         return taskRepository.findAll(pageable);
     }
+
+    @Override
+    public Page<Task> getUserTasks(String searchTerm, int page, int limit, String userId) {
+        Pageable pageable = PageRequest.of(page, limit,
+                Sort.by("createdAt").descending());
+        if (Strings.isNullOrEmpty(searchTerm)) {
+            searchTerm = null;
+        }
+
+        return taskRepository.getUserTaskList(userId, pageable);
+    }
 }
