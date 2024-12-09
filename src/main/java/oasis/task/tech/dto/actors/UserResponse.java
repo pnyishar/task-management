@@ -11,7 +11,7 @@ import oasis.task.tech.constants.UserType;
  */
 @Data
 public class UserResponse {
-    private Long id;
+    private String id;
 
     private String fullName;
 

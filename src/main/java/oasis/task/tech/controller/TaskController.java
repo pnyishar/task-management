@@ -38,7 +38,7 @@ public class TaskController {
         );
     }
 
-    @PreAuthorize("hasRole('ROLE_SUPER_ADMIN')")
+    @PreAuthorize("hasRole('ROLE_CAN_VIEW_ALL_TASKS')")
     @GetMapping("all")
     public ResponseEntity<?> getAllTasks(@RequestParam(defaultValue = "0") int page,
                                          @RequestParam(defaultValue = "10") int limit,

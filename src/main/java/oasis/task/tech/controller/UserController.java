@@ -51,7 +51,7 @@ public class UserController {
 
     }
 
-    @PreAuthorize("hasRole('ROLE_SUPER_ADMIN')")
+    @PreAuthorize("hasRole('ROLE_CAN_VIEW_ALL_USERS')")
     @GetMapping("all")
     public ResponseEntity<?> getAllUsers(@RequestParam(defaultValue = "0") int page,
                                          @RequestParam(defaultValue = "10") int limit,
