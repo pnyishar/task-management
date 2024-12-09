@@ -2,6 +2,7 @@ package oasis.task.tech.domains.actors;
 
 import lombok.*;
 import oasis.task.tech.constants.Priority;
+import oasis.task.tech.constants.Status;
 import oasis.task.tech.domains.base.StringIdentifierModel;
 
 import javax.persistence.*;
@@ -27,6 +28,9 @@ public class Task extends StringIdentifierModel {
 
     @Enumerated(EnumType.STRING)
     private Priority priority;
+
+    @Enumerated(EnumType.STRING)
+    private Status status;
 
     private LocalDate dueDate;
 

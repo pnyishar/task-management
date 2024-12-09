@@ -22,6 +22,7 @@ public class TaskMapper {
         taskResponse.setTitle(task.getTitle());
         taskResponse.setDescription(task.getDescription());
         taskResponse.setPriority(task.getPriority());
+        taskResponse.setStatus(task.getStatus());
         taskResponse.setDueDate(task.getDueDate());
 
         return taskResponse;

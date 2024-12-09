@@ -2,6 +2,7 @@ package oasis.task.tech.dto.actors;
 
 import lombok.Data;
 import oasis.task.tech.constants.Priority;
+import oasis.task.tech.constants.Status;
 
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -21,6 +22,9 @@ public class TaskDto {
 
     @Enumerated(EnumType.STRING)
     private Priority priority;
+
+    @Enumerated(EnumType.STRING)
+    private Status status;
 
     private LocalDate dueDate;
 }

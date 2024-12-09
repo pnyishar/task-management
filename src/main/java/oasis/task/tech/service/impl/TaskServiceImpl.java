@@ -50,6 +50,7 @@ public class TaskServiceImpl implements TaskService {
                 .title(taskDto.getTitle())
                 .description(taskDto.getDescription())
                 .priority(taskDto.getPriority())
+                .status(taskDto.getStatus())
                 .dueDate(taskDto.getDueDate())
                 .user(user)
                 .build();
@@ -73,13 +74,16 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     public Page<Task> getUserTasks(String searchTerm, int page, int limit, String userId) {
-        Pageable pageable = PageRequest.of(page, limit,
-                Sort.by("createdAt").descending());
+        Pageable pageable = PageRequest.of(page, limit);
+
         if (Strings.isNullOrEmpty(searchTerm)) {
             searchTerm = null;
         }
 
-        return taskRepository.getUserTaskList(userId, pageable);
+        // Fetch tasks with sorting applied in the query
+        Page<Task> tasks = taskRepository.getUserTaskList(userId, pageable);
+
+        return tasks;
     }
 
     @Override
