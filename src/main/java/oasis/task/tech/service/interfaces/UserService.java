@@ -4,6 +4,7 @@ import oasis.task.tech.constants.UserType;
 import oasis.task.tech.domains.actors.User;
 import oasis.task.tech.domains.security.Role;
 import oasis.task.tech.dto.actors.UserDto;
+import org.springframework.data.domain.Page;
 
 import javax.validation.constraints.NotNull;
 import java.util.Optional;
@@ -21,4 +22,5 @@ public interface UserService {
     User getCurrentUser();
     long count();
     Optional<User> save(@NotNull(message = "Cannot save a null entity") User user);
+    Page<User> getAllUsers(String searchTerm, int page, int limit);
 }

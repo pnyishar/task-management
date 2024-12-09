@@ -1,5 +1,6 @@
 package oasis.task.tech.service.impl;
 
+import com.google.common.base.Strings;
 import oasis.task.tech.constants.MessageConstant;
 import oasis.task.tech.constants.UserType;
 import oasis.task.tech.domains.actors.User;
@@ -11,6 +12,10 @@ import oasis.task.tech.service.RoleService;
 import oasis.task.tech.service.interfaces.UserService;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -45,6 +50,17 @@ public class UserServiceImpl extends BaseServiceImpl<User, String> implements Us
     public Optional<User> save(User user) {
         this.updateUserRoleIfEmptyAndUserTypeIsKnown(user);
         return super.save(user);
+    }
+
+    @Override
+    public Page<User> getAllUsers(String searchTerm, int page, int limit) {
+        Pageable pageable = PageRequest.of(page, limit,
+                Sort.by("createdAt").descending());
+        if (Strings.isNullOrEmpty(searchTerm)) {
+            searchTerm = null;
+        }
+
+        return userRepository.findAll(pageable);
     }
 
     private void updateUserRoleIfEmptyAndUserTypeIsKnown(User user) {

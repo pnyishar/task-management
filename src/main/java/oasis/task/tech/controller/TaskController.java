@@ -8,6 +8,7 @@ import oasis.task.tech.service.interfaces.TaskService;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -37,6 +38,7 @@ public class TaskController {
         );
     }
 
+    @PreAuthorize("hasRole('ROLE_SUPER_ADMIN')")
     @GetMapping("all")
     public ResponseEntity<?> getAllTasks(@RequestParam(defaultValue = "0") int page,
                                          @RequestParam(defaultValue = "10") int limit,
