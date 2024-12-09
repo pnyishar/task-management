@@ -66,4 +66,12 @@ public class UserController {
                         "Users retrieved Successfully"),
                 HttpStatus.OK);
     }
+
+    @PutMapping("update")
+    public ResponseEntity<?> updateUser(@RequestBody UserDto userDto, @RequestParam String userId){
+        String response = userService.updateUser(userDto, userId);
+
+        return new ResponseEntity<>(
+                new JsonResponse(HttpStatus.OK, true, response, "Registration Successful!!"), HttpStatus.OK);
+    }
 }

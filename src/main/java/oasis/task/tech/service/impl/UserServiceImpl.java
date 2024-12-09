@@ -3,10 +3,12 @@ package oasis.task.tech.service.impl;
 import com.google.common.base.Strings;
 import oasis.task.tech.constants.MessageConstant;
 import oasis.task.tech.constants.UserType;
+import oasis.task.tech.domains.actors.Task;
 import oasis.task.tech.domains.actors.User;
 import oasis.task.tech.domains.security.Role;
 import oasis.task.tech.dto.actors.UserDto;
 import oasis.task.tech.exception.BadRequestException;
+import oasis.task.tech.exception.NotFoundException;
 import oasis.task.tech.repository.actors.UserRepository;
 import oasis.task.tech.service.RoleService;
 import oasis.task.tech.service.interfaces.UserService;
@@ -133,6 +135,23 @@ public class UserServiceImpl extends BaseServiceImpl<User, String> implements Us
             return (User) authentication.getPrincipal();
         }
         return null;
+    }
+
+    @Override
+    public String updateUser(UserDto userDto, String userId) {
+        // Fetch the existing user
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new NotFoundException("User not found with id: " + userId));
+
+        // Update the fields
+        if (userDto.getEmail() != null) user.setEmail(userDto.getEmail());
+        if (userDto.getFullName() != null) user.setFullName(userDto.getFullName());
+        if (userDto.getPhone() != null) user.setPhone(userDto.getPhone());
+
+        // Save the updated user
+        userRepository.save(user);
+
+        return "User updated successfully";
     }
 
     @Override
