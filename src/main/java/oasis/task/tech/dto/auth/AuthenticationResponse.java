@@ -24,8 +24,6 @@ public class AuthenticationResponse implements Serializable {
 
     private String email;
 
-    private String applicationId;
-
     private String fullName;
 
     private Set<RoleDto> roles;
