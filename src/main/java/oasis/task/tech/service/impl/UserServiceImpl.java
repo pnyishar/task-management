@@ -2,13 +2,16 @@ package oasis.task.tech.service.impl;
 
 import com.google.common.base.Strings;
 import oasis.task.tech.constants.MessageConstant;
+import oasis.task.tech.constants.Status;
 import oasis.task.tech.constants.UserType;
 import oasis.task.tech.domains.actors.Task;
 import oasis.task.tech.domains.actors.User;
 import oasis.task.tech.domains.security.Role;
+import oasis.task.tech.dto.actors.AdminDashboardDto;
 import oasis.task.tech.dto.actors.UserDto;
 import oasis.task.tech.exception.BadRequestException;
 import oasis.task.tech.exception.NotFoundException;
+import oasis.task.tech.repository.actors.TaskRepository;
 import oasis.task.tech.repository.actors.UserRepository;
 import oasis.task.tech.service.RoleService;
 import oasis.task.tech.service.interfaces.UserService;
@@ -39,12 +42,16 @@ public class UserServiceImpl extends BaseServiceImpl<User, String> implements Us
     private UserRepository userRepository;
     private PasswordEncoder passwordEncoder;
     private RoleService roleService;
+    private TaskRepository taskRepository;
 
-    public UserServiceImpl(UserRepository userRepository, PasswordEncoder passwordEncoder, RoleService roleService) {
+    public UserServiceImpl(UserRepository userRepository,
+                           PasswordEncoder passwordEncoder,
+                           RoleService roleService, TaskRepository taskRepository) {
         super(userRepository);
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.roleService = roleService;
+        this.taskRepository = taskRepository;
     }
 
     @Override
@@ -126,6 +133,17 @@ public class UserServiceImpl extends BaseServiceImpl<User, String> implements Us
     @Cacheable("users-roles")
     public Set<Role> getUserRoles(UserType userType) {
         return roleService.getRoles(userType);
+    }
+
+    @Override
+    public AdminDashboardDto getAdminDashboard() {
+        AdminDashboardDto dashboardDto = new AdminDashboardDto();
+
+        dashboardDto.setNumberOfUsers(userRepository.count());
+        dashboardDto.setNumberOfTasks(taskRepository.count());
+        dashboardDto.setNumberOfCompletedTasks(taskRepository.countByStatus(Status.COMPLETED));
+
+        return dashboardDto;
     }
 
     @Override

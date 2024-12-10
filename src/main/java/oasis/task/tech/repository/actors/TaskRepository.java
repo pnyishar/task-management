@@ -1,5 +1,6 @@
 package oasis.task.tech.repository.actors;
 
+import oasis.task.tech.constants.Status;
 import oasis.task.tech.domains.actors.Task;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -23,4 +24,6 @@ public interface TaskRepository extends JpaRepository<Task, String> {
             "WHEN t.priority = 'LOW' THEN 3 ELSE 4 END, " +
             "t.dueDate ASC")
     Page<Task> getUserTaskList(@Param("userId") String userId, Pageable pageable);
+
+    long countByStatus(Status status);
 }

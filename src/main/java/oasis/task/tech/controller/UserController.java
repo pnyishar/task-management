@@ -2,6 +2,7 @@ package oasis.task.tech.controller;
 
 import oasis.task.tech.domains.actors.User;
 import oasis.task.tech.dto.JsonResponse;
+import oasis.task.tech.dto.actors.AdminDashboardDto;
 import oasis.task.tech.dto.actors.UserDto;
 import oasis.task.tech.dto.actors.UserResponse;
 import oasis.task.tech.mappers.UserMapper;
@@ -73,5 +74,14 @@ public class UserController {
 
         return new ResponseEntity<>(
                 new JsonResponse(HttpStatus.OK, true, response, "Registration Successful!!"), HttpStatus.OK);
+    }
+
+    @PreAuthorize("hasRole('ROLE_CAN_VIEW_ALL_USERS')")
+    @GetMapping("admin/dashboard")
+    public ResponseEntity<?> getAdminDashboardData(){
+        AdminDashboardDto dashboardData = userService.getAdminDashboard();
+
+        return new ResponseEntity<>(
+                new JsonResponse(HttpStatus.OK, true, dashboardData, "Dashboard Data Retrieved!!"), HttpStatus.OK);
     }
 }
