@@ -5,6 +5,7 @@ import oasis.task.tech.domains.actors.User;
 import oasis.task.tech.domains.security.Role;
 import oasis.task.tech.dto.actors.AdminDashboardDto;
 import oasis.task.tech.dto.actors.TaskDto;
+import oasis.task.tech.dto.actors.UserDashboardData;
 import oasis.task.tech.dto.actors.UserDto;
 import org.springframework.data.domain.Page;
 
@@ -22,6 +23,7 @@ public interface UserService {
     String signUpUser(UserDto userDto);
     Set<Role> getUserRoles(UserType userType);
     AdminDashboardDto getAdminDashboard();
+    UserDashboardData getUserDashboard(String userId);
     User getCurrentUser();
     String updateUser(UserDto userDto, String userId);
     long count();

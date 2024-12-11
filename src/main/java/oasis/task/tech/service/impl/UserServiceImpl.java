@@ -8,6 +8,7 @@ import oasis.task.tech.domains.actors.Task;
 import oasis.task.tech.domains.actors.User;
 import oasis.task.tech.domains.security.Role;
 import oasis.task.tech.dto.actors.AdminDashboardDto;
+import oasis.task.tech.dto.actors.UserDashboardData;
 import oasis.task.tech.dto.actors.UserDto;
 import oasis.task.tech.exception.BadRequestException;
 import oasis.task.tech.exception.NotFoundException;
@@ -144,6 +145,21 @@ public class UserServiceImpl extends BaseServiceImpl<User, String> implements Us
         dashboardDto.setNumberOfCompletedTasks(taskRepository.countByStatus(Status.COMPLETED));
 
         return dashboardDto;
+    }
+
+    @Override
+    public UserDashboardData getUserDashboard(String userId) {
+        UserDashboardData dashboardData = new UserDashboardData();
+
+        long createdTasks = taskRepository.countByUserIdAndDeletedFalse(userId);
+        long completedTasks = taskRepository.countByUserIdAndStatusAndDeletedFalse(userId, Status.COMPLETED);
+        long waitingTasks = taskRepository.countByUserIdAndStatusAndDeletedFalse(userId, Status.WAITING);
+
+        dashboardData.setNumberOfCreatedTasks(createdTasks);
+        dashboardData.setNumberOfCompletedTasks(completedTasks);
+        dashboardData.setNumberOfWaitingTasks(waitingTasks);
+
+        return dashboardData;
     }
 
     @Override

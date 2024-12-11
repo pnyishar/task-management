@@ -26,4 +26,8 @@ public interface TaskRepository extends JpaRepository<Task, String> {
     Page<Task> getUserTaskList(@Param("userId") String userId, Pageable pageable);
 
     long countByStatus(Status status);
+
+    long countByUserIdAndDeletedFalse(String userId);
+
+    long countByUserIdAndStatusAndDeletedFalse(String userId, Status status);
 }
