@@ -1,8 +1,11 @@
 package oasis.task.tech.service.interfaces;
 
 import oasis.task.tech.domains.actors.Task;
+import oasis.task.tech.dto.actors.RecentTaskDto;
 import oasis.task.tech.dto.actors.TaskDto;
 import org.springframework.data.domain.Page;
+
+import java.util.List;
 
 /**
  * Author: Paul Nyishar
@@ -17,4 +20,5 @@ public interface TaskService {
     Page<Task> getUserTasks(String searchTerm, int page, int limit, String userId);
     String updateTask(TaskDto taskDto, String taskId);
     String deleteTask(String taskId);
+    List<RecentTaskDto> getUserRecentTasks(String userId);
 }

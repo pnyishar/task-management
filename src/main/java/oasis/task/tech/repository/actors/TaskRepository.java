@@ -8,6 +8,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.util.List;
+
 /**
  * Author: Paul Nyishar
  * Date:12/8/24
@@ -30,4 +32,8 @@ public interface TaskRepository extends JpaRepository<Task, String> {
     long countByUserIdAndDeletedFalse(String userId);
 
     long countByUserIdAndStatusAndDeletedFalse(String userId, Status status);
+
+    @Query("SELECT t FROM Task t WHERE t.user.id = :userId AND t.deleted = false " +
+            "ORDER BY t.dueDate ASC")
+    List<Task> findTop5ByUserIdOrderByDueDateDesc(@Param("userId") String userId);
 }

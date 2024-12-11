@@ -2,6 +2,7 @@ package oasis.task.tech.controller;
 
 import oasis.task.tech.domains.actors.Task;
 import oasis.task.tech.dto.JsonResponse;
+import oasis.task.tech.dto.actors.RecentTaskDto;
 import oasis.task.tech.dto.actors.TaskDto;
 import oasis.task.tech.mappers.TaskMapper;
 import oasis.task.tech.service.interfaces.TaskService;
@@ -12,6 +13,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 /**
  * Author: Paul Nyishar
@@ -81,6 +83,15 @@ public class TaskController {
 
         return new ResponseEntity<>(
                 new JsonResponse(HttpStatus.OK, true, deleteResponse), HttpStatus.OK
+        );
+    }
+
+    @GetMapping("user/recent")
+    public ResponseEntity<?> getUserRecentTasks(@RequestParam String userId) {
+        List<RecentTaskDto> recentTasks = taskService.getUserRecentTasks(userId);
+
+        return new ResponseEntity<>(
+                new JsonResponse(HttpStatus.OK, true, recentTasks, "Recent Tasks Retrieved!"), HttpStatus.OK
         );
     }
 }

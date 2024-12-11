@@ -3,6 +3,7 @@ package oasis.task.tech.service.impl;
 import com.google.common.base.Strings;
 import oasis.task.tech.domains.actors.Task;
 import oasis.task.tech.domains.actors.User;
+import oasis.task.tech.dto.actors.RecentTaskDto;
 import oasis.task.tech.dto.actors.TaskDto;
 import oasis.task.tech.exception.NotFoundException;
 import oasis.task.tech.repository.actors.TaskRepository;
@@ -16,6 +17,9 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Author: Paul Nyishar
@@ -115,5 +119,19 @@ public class TaskServiceImpl implements TaskService {
         taskRepository.save(task);
 
         return "Task marked as deleted successfully";
+    }
+
+    @Override
+    public List<RecentTaskDto> getUserRecentTasks(String userId) {
+        List<Task> tasks = taskRepository.findTop5ByUserIdOrderByDueDateDesc(userId);
+
+        // Convert Task entities to RecentTaskDto
+        return tasks.stream()
+                .map(task -> new RecentTaskDto(
+                        task.getTitle(),
+                        task.getStatus(),
+                        task.getDueDate()
+                ))
+                .collect(Collectors.toList());
     }
 }
