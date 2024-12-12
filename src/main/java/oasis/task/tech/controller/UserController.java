@@ -2,10 +2,7 @@ package oasis.task.tech.controller;
 
 import oasis.task.tech.domains.actors.User;
 import oasis.task.tech.dto.JsonResponse;
-import oasis.task.tech.dto.actors.AdminDashboardDto;
-import oasis.task.tech.dto.actors.UserDashboardData;
-import oasis.task.tech.dto.actors.UserDto;
-import oasis.task.tech.dto.actors.UserResponse;
+import oasis.task.tech.dto.actors.*;
 import oasis.task.tech.mappers.UserMapper;
 import oasis.task.tech.service.interfaces.UserService;
 import oasis.task.tech.util.Utility;
@@ -70,11 +67,11 @@ public class UserController {
     }
 
     @PutMapping("update")
-    public ResponseEntity<?> updateUser(@RequestBody UserDto userDto, @RequestParam String userId){
-        String response = userService.updateUser(userDto, userId);
+    public ResponseEntity<?> updateUser(@RequestBody ProfileDto profileDto, @RequestParam String userId){
+        String response = userService.updateUser(profileDto, userId);
 
         return new ResponseEntity<>(
-                new JsonResponse(HttpStatus.OK, true, response, "Registration Successful!!"), HttpStatus.OK);
+                new JsonResponse(HttpStatus.OK, true, response, "Profile Update Successful!!"), HttpStatus.OK);
     }
 
     @PreAuthorize("hasRole('ROLE_CAN_VIEW_ALL_USERS')")

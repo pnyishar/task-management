@@ -3,10 +3,7 @@ package oasis.task.tech.service.interfaces;
 import oasis.task.tech.constants.UserType;
 import oasis.task.tech.domains.actors.User;
 import oasis.task.tech.domains.security.Role;
-import oasis.task.tech.dto.actors.AdminDashboardDto;
-import oasis.task.tech.dto.actors.TaskDto;
-import oasis.task.tech.dto.actors.UserDashboardData;
-import oasis.task.tech.dto.actors.UserDto;
+import oasis.task.tech.dto.actors.*;
 import org.springframework.data.domain.Page;
 
 import javax.validation.constraints.NotNull;
@@ -25,7 +22,7 @@ public interface UserService {
     AdminDashboardDto getAdminDashboard();
     UserDashboardData getUserDashboard(String userId);
     User getCurrentUser();
-    String updateUser(UserDto userDto, String userId);
+    String updateUser(ProfileDto profileDto, String userId);
     long count();
     Optional<User> save(@NotNull(message = "Cannot save a null entity") User user);
     Page<User> getAllUsers(String searchTerm, int page, int limit);

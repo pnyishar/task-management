@@ -1,0 +1,7 @@
+HOW TO SETUP THE APPLICATION
+-Rename the .env-example file to .env
+-create a postgress database and include the name as required in the .env file
+-setup the port on which you want to run the application in the .env file
+-include all the other settings in the .env file
+-run npm install to get all dependencies installed
+-proceed to run the application

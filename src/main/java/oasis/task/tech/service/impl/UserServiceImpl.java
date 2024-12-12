@@ -8,6 +8,7 @@ import oasis.task.tech.domains.actors.Task;
 import oasis.task.tech.domains.actors.User;
 import oasis.task.tech.domains.security.Role;
 import oasis.task.tech.dto.actors.AdminDashboardDto;
+import oasis.task.tech.dto.actors.ProfileDto;
 import oasis.task.tech.dto.actors.UserDashboardData;
 import oasis.task.tech.dto.actors.UserDto;
 import oasis.task.tech.exception.BadRequestException;
@@ -172,15 +173,15 @@ public class UserServiceImpl extends BaseServiceImpl<User, String> implements Us
     }
 
     @Override
-    public String updateUser(UserDto userDto, String userId) {
+    public String updateUser(ProfileDto profileDto, String userId) {
         // Fetch the existing user
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new NotFoundException("User not found with id: " + userId));
 
         // Update the fields
-        if (userDto.getEmail() != null) user.setEmail(userDto.getEmail());
-        if (userDto.getFullName() != null) user.setFullName(userDto.getFullName());
-        if (userDto.getPhone() != null) user.setPhone(userDto.getPhone());
+        if (profileDto.getEmail() != null) user.setEmail(profileDto.getEmail());
+        if (profileDto.getFullName() != null) user.setFullName(profileDto.getFullName());
+        if (profileDto.getPhone() != null) user.setPhone(profileDto.getPhone());
 
         // Save the updated user
         userRepository.save(user);
